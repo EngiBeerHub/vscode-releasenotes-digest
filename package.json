@@ -4,7 +4,7 @@
   "displayName": "Release Digest",
   "description": "Quickly catch the important changes in frequent VS Code release notes with a concise Japanese AI digest.",
   "version": "0.1.0",
-  "publisher": "Engibeer",
+  "publisher": "EngibeerHub",
   "license": "MIT",
   "repository": {
     "type": "git",
