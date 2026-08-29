@@ -1,4 +1,6 @@
 import * as vscode from 'vscode';
+import { saveDigestMarkdown } from './digestStorage';
+import { showMarkdownPreview } from './markdownPreview';
 import { buildDigestDocument } from './presentation';
 import {
   extractReleaseNotes,
@@ -17,7 +19,7 @@ const SOURCE_ACTION = 'Release Notesを開く';
 
 export async function activate(context: vscode.ExtensionContext): Promise<void> {
   context.subscriptions.push(
-    vscode.commands.registerCommand(COMMAND_ID, () => runDigest())
+    vscode.commands.registerCommand(COMMAND_ID, () => runDigest(context.globalStorageUri))
   );
 
   await notifyAfterVersionUpdate(context);
@@ -49,7 +51,7 @@ async function notifyAfterVersionUpdate(context: vscode.ExtensionContext): Promi
   }
 }
 
-async function runDigest(): Promise<void> {
+async function runDigest(globalStorageUri: vscode.Uri): Promise<void> {
   try {
     await vscode.window.withProgress(
       {
@@ -74,11 +76,25 @@ async function runDigest(): Promise<void> {
         throwIfCancelled(token);
 
         const markdown = buildDigestDocument(releaseVersion, generatedBody, sourceUrl);
-        const document = await vscode.workspace.openTextDocument({
-          language: 'markdown',
-          content: markdown
+        const documentUri = await saveDigestMarkdown(
+          globalStorageUri,
+          releaseVersion,
+          markdown,
+          {
+            createDirectory: (uri) => vscode.workspace.fs.createDirectory(uri),
+            joinPath: (base, path) => vscode.Uri.joinPath(base, path),
+            writeFile: (uri, content) => vscode.workspace.fs.writeFile(uri, content)
+          }
+        );
+        const document = await vscode.workspace.openTextDocument(documentUri);
+        await vscode.window.showTextDocument(document, {
+          preview: false,
+          preserveFocus: false
         });
-        await vscode.window.showTextDocument(document, { preview: false });
+        await showMarkdownPreview(
+          documentUri,
+          (command, resource) => vscode.commands.executeCommand(command, resource)
+        );
       }
     );
   } catch (error: unknown) {
