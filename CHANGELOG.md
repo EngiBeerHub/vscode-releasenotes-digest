@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.1
+
+- Clarify the extension's scope with the "Release Digest for Visual Studio Code" display name.
+- Improve the README structure and product-focused description.
+- Replace the Marketplace screenshot with a higher-resolution capture.
+
 ## 0.1.0
 
 - Detect VS Code version updates and offer a one-time Release Digest notification.
