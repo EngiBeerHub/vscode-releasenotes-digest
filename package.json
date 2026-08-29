@@ -1,0 +1,50 @@
+{
+  "name": "release-digest",
+  "displayName": "Release Digest",
+  "description": "Summarize the current VS Code release notes in concise Japanese.",
+  "version": "0.1.0",
+  "publisher": "ryosuke",
+  "license": "MIT",
+  "engines": {
+    "vscode": "^1.91.0"
+  },
+  "categories": [
+    "Other",
+    "Machine Learning"
+  ],
+  "keywords": [
+    "release notes",
+    "summary",
+    "japanese",
+    "copilot"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "releaseDigest.summarizeCurrentRelease",
+        "title": "Release Digest: 現在のVS Code Release Notesを要約"
+      }
+    ]
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "watch": "tsc -watch -p tsconfig.json",
+    "lint": "eslint src",
+    "test": "npm run build && node --test out/test/**/*.test.js",
+    "check": "npm run lint && npm test",
+    "package": "vsce package --no-dependencies --allow-missing-repository"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "@types/node": "^22.0.0",
+    "@types/vscode": "^1.91.0",
+    "@vscode/vsce": "^3.6.0",
+    "eslint": "^9.0.0",
+    "typescript": "^5.7.0",
+    "typescript-eslint": "^8.0.0"
+  }
+}

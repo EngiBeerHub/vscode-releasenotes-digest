@@ -1,0 +1,10 @@
+.github/**
+.vscode/**
+src/**
+out/test/**
+out/**/*.js.map
+test-fixtures/**
+eslint.config.mjs
+tsconfig.json
+.gitignore
+*.vsix
