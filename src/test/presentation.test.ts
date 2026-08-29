@@ -22,6 +22,26 @@ test('builds the fixed title and official source around the AI body', () => {
   assert.match(result, /## Source\n\n\[公式 VS Code 1\.135 Release Notes\]/);
 });
 
+test('surrounds every output heading with blank lines', () => {
+  const compactBody = validBody.replaceAll('\n\n', '\n');
+  const result = buildDigestDocument(
+    '1.135',
+    compactBody,
+    'https://code.visualstudio.com/updates/v1_135'
+  );
+  const lines = result.trimEnd().split('\n');
+
+  for (const [index, line] of lines.entries()) {
+    if (!/^#{1,6}\s+\S/.test(line)) {
+      continue;
+    }
+    if (index > 0) {
+      assert.equal(lines[index - 1], '', `expected a blank line before: ${line}`);
+    }
+    assert.equal(lines[index + 1], '', `expected a blank line after: ${line}`);
+  }
+});
+
 test('rejects an AI response that omits a required section', () => {
   assert.throws(
     () => buildDigestDocument('1.135', validBody.replace('## 3行まとめ', '## Summary'), 'https://example.com'),

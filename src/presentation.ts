@@ -14,17 +14,48 @@ export function buildDigestDocument(
   const withoutTitle = body.replace(/^# VS Code[^\n]*Release Digest\s*/i, '');
   validateDigestStructure(withoutTitle);
   const withoutSource = withoutTitle.replace(/\n## Source[\s\S]*$/i, '').trim();
+  const formattedBody = ensureBlankLinesAroundHeadings(withoutSource);
 
   return [
     `# VS Code ${version} Release Digest`,
     '',
-    withoutSource,
+    formattedBody,
     '',
     '## Source',
     '',
     `[公式 VS Code ${version} Release Notes](${sourceUrl})`,
     ''
   ].join('\n');
+}
+
+function ensureBlankLinesAroundHeadings(markdown: string): string {
+  const lines = markdown.split('\n');
+  const result: string[] = [];
+
+  for (let index = 0; index < lines.length; index += 1) {
+    const line = lines[index];
+    if (!/^#{1,6}\s+\S/.test(line)) {
+      result.push(line);
+      continue;
+    }
+
+    while (result[result.length - 1] === '') {
+      result.pop();
+    }
+    if (result.length > 0) {
+      result.push('');
+    }
+    result.push(line, '');
+
+    while (lines[index + 1] === '') {
+      index += 1;
+    }
+  }
+
+  while (result[result.length - 1] === '') {
+    result.pop();
+  }
+  return result.join('\n');
 }
 
 function validateDigestStructure(body: string): void {
