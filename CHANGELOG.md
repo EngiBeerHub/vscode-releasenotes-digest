@@ -2,4 +2,8 @@
 
 ## 0.1.0
 
-- Initial MVP release.
+- Detect VS Code version updates and offer a one-time Release Digest notification.
+- Fetch the official release notes for the current VS Code version.
+- Generate a concise Japanese digest with the VS Code Language Model API.
+- Open the generated digest in the built-in Markdown Preview.
+- Include a Source link to the official VS Code release notes.

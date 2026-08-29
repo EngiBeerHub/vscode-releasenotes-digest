@@ -2,7 +2,7 @@
   "name": "release-digest",
   "icon": "assets/icon.png",
   "displayName": "Release Digest",
-  "description": "Summarize the current VS Code release notes in concise Japanese.",
+  "description": "Quickly catch the important changes in frequent VS Code release notes with a concise Japanese AI digest.",
   "version": "0.1.0",
   "publisher": "Engibeer",
   "license": "MIT",
@@ -19,6 +19,9 @@
   ],
   "keywords": [
     "release notes",
+    "vscode updates",
+    "release digest",
+    "ai summary",
     "summary",
     "japanese",
     "copilot"
@@ -36,12 +39,13 @@
     ]
   },
   "scripts": {
+    "vscode:prepublish": "npm run build",
     "build": "tsc -p tsconfig.json",
     "watch": "tsc -watch -p tsconfig.json",
     "lint": "eslint src",
     "test": "npm run build && node --test out/test/**/*.test.js",
     "check": "npm run lint && npm test",
-    "package": "vsce package --no-dependencies --allow-missing-repository"
+    "package": "vsce package --no-dependencies"
   },
   "devDependencies": {
     "@eslint/js": "^9.0.0",
