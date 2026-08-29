@@ -1,9 +1,9 @@
 {
   "name": "release-digest",
   "icon": "assets/icon.png",
-  "displayName": "Release Digest",
+  "displayName": "Release Digest for Visual Studio Code",
   "description": "Quickly catch the important changes in frequent VS Code release notes with a concise Japanese AI digest.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "EngibeerHub",
   "license": "MIT",
   "repository": {
